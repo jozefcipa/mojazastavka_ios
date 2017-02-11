@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Alert, View} from 'react-native';
 import MaterialsIcon from 'react-native-vector-icons/MaterialIcons';
-import { Kohana, Hideo } from 'react-native-textinput-effects';
+import { Kohana } from 'react-native-textinput-effects';
 
 const styles = StyleSheet.create({
   view: {
@@ -34,18 +34,19 @@ const validateInputs = (currentLocation, geolocatedAddress, destinationLocation)
 
 export default (props) => {
 
-  let placeholder = props.geolocatedAddress != '' ? props.geolocatedAddress : 'Vaša poloha';
+  const placeholder = props.geolocatedAddress || 'Vaša poloha';
 
    return (
       <View style={styles.view}>
         <Kohana
             style={styles.input}
             label={placeholder}
+            autoCorrect={false}
             iconClass={MaterialsIcon}
             iconName={'near-me'}
             iconColor={'#bdc3c7'}
             labelStyle={{ color: '#bdc3c7' }}
-            inputStyle={{ color: '#000' }}
+            inputStyle={{ color: '#000'}}
             value={props.currentLocation}
             onChangeText={ (text) => props.currentLocationChanged(text.trim()) }
             onSubmitEditing={ evt => {
@@ -54,9 +55,10 @@ export default (props) => {
               }
             }}
           />
-        <Hideo
+        <Kohana
             style={styles.input}
             label={'Cieľ'}
+            autoCorrect={false}
             iconClass={MaterialsIcon}
             iconName={'place'}
             iconColor={'#bdc3c7'}

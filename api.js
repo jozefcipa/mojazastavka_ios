@@ -5,8 +5,9 @@ export function searchStops({user_location = {name, lat, lng}, destination = {na
 	const user_location_uri = `user_location[name]=${encodeURIComponent(user_location.name)}&user_location[lat]=${user_location.lat}&user_location[lng]=${user_location.lng}`;
 	const destination_uri = `destination[name]=${encodeURIComponent(destination.name)}&destination[lat]=${destination.lat}&destination[lng]=${destination.lng}`;
 	
-	const URL = `${Constants.FIND_STOPS}?${user_location_uri}&${destination_uri}`;
+	const URL = `${Constants.FIND_STOPS}?${user_location_uri}&${destination_uri}&count=${Constants.STOPS_COUNT}`;
 
+	console.log(URL);
 	return new Promise((resolve, reject) => {
             fetch(URL)
 	            .then( res => res.json()) //parse response to JSON

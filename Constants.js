@@ -4,7 +4,12 @@ const Constants = {
 
 	// API CALLS 
 	FIND_STOPS: 'http://localhost:8000/find-stops',
-	GEOLOCATION_PROPERTIES: {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-};	
+	GEOLOCATION_PROPERTIES: {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+	STOPS_COUNT: 3,
+
+	GEO: {
+		EDGE_PADDING: { top: 40, right: 40, bottom: 40, left: 40 }
+	}
+};
 
 export default Constants;

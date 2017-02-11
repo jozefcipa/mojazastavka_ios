@@ -34,3 +34,10 @@ export function destinationLocationInputChanged(value) {
     data: value
   };
 }
+
+export function showLoading(show) {
+  return {
+    type: actionTypes.SHOW_LOADING,
+    data: show
+  };
+}

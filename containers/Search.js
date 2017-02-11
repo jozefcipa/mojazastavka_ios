@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Constants from '../Constants';
-import store from '../store';
 import API from '../api';
 import { 
   userPositionLoaded, 
   userGeolocated, 
   foundStops, 
   currentLocationInputChanged,
-  destinationLocationInputChanged
+  destinationLocationInputChanged,
+  showLoading
 } from '../Actions';
 
 import SearchInputs from '../components/SearchInputs';
@@ -30,7 +30,7 @@ class Search extends Component {
         API.geolocateUser(location)
           .then( res => {
 
-              const geolocated = res.results[0]; //first result
+              const geolocated = res.results[0]; //parse first result
 
               this.props.userPositionLoaded({
                 address: geolocated.formatted_address,
@@ -43,7 +43,6 @@ class Search extends Component {
       err => console.log(err),
       Constants.GEOLOCATION_PROPERTIES
     );
-
   }
 
   render() {
@@ -52,7 +51,8 @@ class Search extends Component {
         {...this.props}
         searchStops = {
           () => {
-            console.log('showing loading bar')
+            // this.props.showLoading(true);
+
             API.searchStops(
               {
                 user_location: {
@@ -67,7 +67,11 @@ class Search extends Component {
                 }
               }
             ) 
-            .then( data => {console.log('hide loading bar'); this.props.foundStops(data)})
+            .then( data => {
+              this.props.foundStops(data);
+              this.props.showLoading(false);
+              console.log(data);
+            })
             .catch( err =>  Alert.alert('Oops!', JSON.stringify(err)));
           }
         }
@@ -91,9 +95,10 @@ const mapDispatchToProps = dispatch => {
     userLocationLoaded: (location) => dispatch(userLocationLoaded(location)),
     userPositionLoaded: (position) => dispatch(userPositionLoaded(position)),
     foundStops:         (stops)    => dispatch(foundStops(stops)),
+    showLoading:        (show)     => dispatch(showLoading(show)),
 
     //value change listeners
-    currentLocationChanged: (text) => dispatch(currentLocationInputChanged(text)),
+    currentLocationChanged:     (text) => dispatch(currentLocationInputChanged(text)),
     destinationLocationChanged: (text) => dispatch(destinationLocationInputChanged(text)),
   };
 };
