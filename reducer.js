@@ -11,14 +11,14 @@ const store = {
 
 	//current user position
 	current_location_geo: {
-		lat: 0,
-		lng: 0
+		latitude: 0,
+		longitude: 0
 	},
 
 	//destination position
 	destination_location_geo: {
-		lat: 0,
-		lng: 0
+		latitude: 0,
+		longitude: 0
 	},
 
 	//found stops in nearby of destination
@@ -29,14 +29,14 @@ const store = {
 
 	//from which stop is highlighted route on map for destination stop
 	selected_destination_stop: {
-		lat: 0,
-		lng: 0
+		latitude: 0,
+		longitude: 0
 	},
 
 	//from which stop is highlighted route on map for nearby stop
 	selected_nearby_stop: {
-		lat: 0,
-		lng: 0
+		latitude: 0,
+		longitude: 0
 	},
 
 	show_loading: false
@@ -50,8 +50,8 @@ const reducer = (state = store, action) => {
     	return {
 	      	...state,
 	      	current_location_geo: {
-	      		lat: action.data.lat,
-	      		lng: action.data.lng
+	      		latitude: action.data.latitude,
+	      		longitude: action.data.longitude
 	      }  
 	  	};
     	break;
@@ -61,8 +61,8 @@ const reducer = (state = store, action) => {
 	      	...state,
 	      	geolocated_address: action.data.address,
 	      	current_location_geo: {
-	      		lat: action.data.lat,
-	      		lng: action.data.lng
+	      		latitude: action.data.latitude,
+	      		longitude: action.data.longitude
 	      }      
       };
       break;
@@ -92,6 +92,7 @@ const reducer = (state = store, action) => {
 
     	return {
 	      	...state,
+	      	destination_location: action.data.destination_name,
 	      	destination_stops: action.data.destination_stops,
 	      	nearby_stops: action.data.nearby_stops,
 	      	destination_location_geo: action.data.destination

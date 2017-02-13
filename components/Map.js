@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import MapView from 'react-native-maps';
 import Loading from './Loading';
 import Constants from '../Constants';
-import {
-  mergePoints
-} from '../helpers';
 
 export default class Map extends Component{
 
@@ -15,16 +12,18 @@ export default class Map extends Component{
   }
 
   shouldComponentUpdate(nextProps){
-
-    const points = mergePoints(nextProps.currentLocation, nextProps.points.nearby, nextProps.points.destination);
     
+    //merge points
+    const allPoints = [...nextProps.points.nearby, ...nextProps.points.destination, nextProps.currentLocationGeo];
+
     //center map
-    this.map.fitToCoordinates(points, { edgePadding: Constants.GEO.EDGE_PADDING, animated: true});
+    this.map.fitToCoordinates(allPoints, { edgePadding: Constants.GEO.EDGE_PADDING, animated: true});
 
     return true;
   }
 
   render(){
+
       return (
           <MapView
               ref={ref => this.map = ref }
@@ -36,8 +35,8 @@ export default class Map extends Component{
               {/* CURRENT USER LOCATION */}
               <MapView.Marker
                   coordinate={{
-                    latitude: this.props.currentLocation.lat,
-                    longitude: this.props.currentLocation.lng
+                    latitude: this.props.currentLocationGeo.latitude,
+                    longitude: this.props.currentLocationGeo.longitude
                   }}
                   pinColor={'#FFE135'}
                   title={'Vaša poloha'}
@@ -45,10 +44,10 @@ export default class Map extends Component{
               />
 
               {/* DESTINATION LOCATION */}
-              <MapView.Marker
+              <MapView.Marker draggable onDragEnd={this.props.destinationPointMoved}
                   coordinate={{
-                    latitude: this.props.destinationLocation.lat,
-                    longitude: this.props.destinationLocation.lng
+                    latitude: this.props.destinationLocationGeo.latitude,
+                    longitude: this.props.destinationLocationGeo.longitude
                   }}
                   pinColor={'purple'}
                   title={'Cieľ'}
@@ -62,8 +61,8 @@ export default class Map extends Component{
                     <MapView.Marker
                       key={i}
                       coordinate={{
-                        latitude: point.lat,
-                        longitude: point.lng
+                        latitude: point.latitude,
+                        longitude: point.longitude
                       }}
                       title={point.name}
                       description={point.type + ' - ' + point.distance_in_meters + 'm'}
@@ -79,8 +78,8 @@ export default class Map extends Component{
                     <MapView.Marker
                       key={i}
                       coordinate={{
-                        latitude: point.lat,
-                        longitude: point.lng
+                        latitude: point.latitude,
+                        longitude: point.longitude
                       }}
                       pinColor= '#bada55'
                       title={point.name}

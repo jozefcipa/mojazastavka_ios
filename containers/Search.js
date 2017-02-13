@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Constants from '../Constants';
 import API from '../api';
 import { 
+  userLocationLoaded,
   userPositionLoaded, 
-  userGeolocated, 
   foundStops, 
   currentLocationInputChanged,
   destinationLocationInputChanged,
@@ -21,10 +21,10 @@ class Search extends Component {
     // load user position
     navigator.geolocation.getCurrentPosition( position => {
 
-        const location = {lat: position.coords.latitude, lng: position.coords.longitude};
+        const location = {latitude: position.coords.latitude, longitude: position.coords.longitude};
 
         //save coords
-        this.props.userPositionLoaded(location);
+        this.props.userLocationLoaded(location);
 
         //retrieve address by coords from Google API
         API.geolocateUser(location)
@@ -34,8 +34,8 @@ class Search extends Component {
 
               this.props.userPositionLoaded({
                 address: geolocated.formatted_address,
-                lat: geolocated.geometry.location.lat,
-                lng: geolocated.geometry.location.lng
+                latitude: geolocated.geometry.location.lat,
+                longitude: geolocated.geometry.location.lng
               });
           })
           .catch(err => Alert.alert('Oops!', err));
@@ -57,13 +57,13 @@ class Search extends Component {
               {
                 user_location: {
                   name: this.props.currentLocation,
-                  lat: this.props.currentLocationGeo.lat, 
-                  lng: this.props.currentLocationGeo.lng
+                  latitude: this.props.currentLocationGeo.latitude, 
+                  longitude: this.props.currentLocationGeo.longitude
                 }, 
                 destination: {
                   name: this.props.destinationLocation,
-                  lat: this.props.destinationLocationGeo.lat, 
-                  lng: this.props.destinationLocationGeo.lng
+                  latitude: this.props.destinationLocationGeo.latitude, 
+                  longitude: this.props.destinationLocationGeo.longitude
                 }
               }
             ) 
@@ -92,8 +92,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLocationLoaded: (location) => dispatch(userLocationLoaded(location)),
     userPositionLoaded: (position) => dispatch(userPositionLoaded(position)),
+    userLocationLoaded: (location) => dispatch(userLocationLoaded(location)),
     foundStops:         (stops)    => dispatch(foundStops(stops)),
     showLoading:        (show)     => dispatch(showLoading(show)),
 
