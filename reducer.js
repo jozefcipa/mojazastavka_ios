@@ -39,7 +39,8 @@ const store = {
 		longitude: 0
 	},
 
-	show_loading: false
+	show_loading: false,
+	loading_text: ''
 };
 
 const reducer = (state = store, action) => {
@@ -84,7 +85,8 @@ const reducer = (state = store, action) => {
     case actionTypes.SHOW_LOADING:
     	return {
 	      	...state,
-	      	show_loading: action.data
+	      	show_loading: action.data.show,
+	      	loading_text: action.data.text
       };
       break;
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { AppRegistry, View, Alert, NetInfo } from 'react-native';
+import { AppRegistry, View, Alert, NetInfo, AsyncStorage } from 'react-native';
 
 import store  from './store';
 import Header from './components/Header';
@@ -14,6 +14,15 @@ export default class App extends Component{
     
     //check for internet connection
     NetInfo.addEventListener('change', this.handleConnectivityChange);
+
+    //show welcome message, after first app launch
+    AsyncStorage.getItem('APP_LAUNCHED', (err, result) => {
+      if(result !== 'true'){
+        Alert.alert('Vitajte', 'Aplikácia Moja zastávka je tu pre Vás v prípade, že sa potrebujete dostať do cieľa pomocou MHD a neviete, ktorá zastávka je ta správna.');
+
+        AsyncStorage.setItem('APP_LAUNCHED', 'true');
+      }
+    });
   }
 
   handleConnectivityChange(reach){

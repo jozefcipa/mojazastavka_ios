@@ -1,0 +1,3 @@
+rootProject.name = 'mojazastavka_ios'
+
+include ':app'

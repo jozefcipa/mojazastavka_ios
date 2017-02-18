@@ -35,9 +35,9 @@ export function destinationLocationInputChanged(value) {
   };
 }
 
-export function showLoading(show) {
+export function showLoading(show, text = '') {
   return {
     type: actionTypes.SHOW_LOADING,
-    data: show
+    data: {show, text}
   };
 }

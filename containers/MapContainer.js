@@ -14,12 +14,12 @@ class MapContainer extends Component {
     return (
       <Map {...this.props} 
         destinationPointMoved={e => {
-          // this.props.showLoadingView(true);
+          this.props.showLoadingView(true, 'Vyhľadávam zastávky pre zvolený bod');
 
           searchStops(
             {
               user_location: {
-                name: this.props.currentLocation,
+                name: this.props.currentName,
                 latitude: this.props.currentLocationGeo.latitude, 
                 longitude: this.props.currentLocationGeo.longitude
               }, 
@@ -31,11 +31,13 @@ class MapContainer extends Component {
             }
           ) 
           .then( data => {
-            console.log(data);
             this.props.foundStops(data);
             this.props.showLoadingView(false);
           })
-          .catch( err => console.log(err) );//Alert.alert('Oops!', JSON.stringify(err)));
+          .catch( err => {
+            Alert.alert('Ops!', 'Nepodarilo sa nájsť zastávky.');
+            this.props.showLoadingView(false);
+          });
         }
       }/>
     );
@@ -45,6 +47,7 @@ class MapContainer extends Component {
 const mapStateToProps = state => {
   return {
     showLoading: state.show_loading,
+    loadingText: state.loading_text,
     currentLocationGeo: state.current_location_geo,
     currentName: state.current_location || state.geolocated_address,
     destinationLocationGeo: state.destination_location_geo,
@@ -59,7 +62,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     foundStops: (stops) => dispatch(foundStops(stops)),
-    showLoadingView: (show) => dispatch(showLoading(show))
+    showLoadingView: (show, text) => dispatch(showLoading(show, text))
   };
 };
 

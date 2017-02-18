@@ -7,7 +7,6 @@ export function searchStops({user_location = {name, latitude, longitude}, destin
 	
 	const URL = `${Constants.FIND_STOPS}?${user_location_uri}&${destination_uri}&count=${Constants.STOPS_COUNT}`;
 
-	console.log(URL);
 	return new Promise((resolve, reject) => {
             fetch(URL)
 	            .then( res => res.json()) //parse response to JSON

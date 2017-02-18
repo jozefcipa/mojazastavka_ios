@@ -21,6 +21,8 @@ class Search extends Component {
     // load user position
     navigator.geolocation.getCurrentPosition( position => {
 
+        this.props.showLoading(true, 'Lokalizujem Vašu polohu');
+
         const location = {latitude: position.coords.latitude, longitude: position.coords.longitude};
 
         //save coords
@@ -37,10 +39,18 @@ class Search extends Component {
                 latitude: geolocated.geometry.location.lat,
                 longitude: geolocated.geometry.location.lng
               });
+
+              this.props.showLoading(false);
           })
-          .catch(err => Alert.alert('Oops!', err));
+          .catch(err => {
+            Alert.alert('Ops!', 'Nepodarilo sa získať Vašu polohu.');
+            this.props.showLoading(false);
+          });
       }, 
-      err => console.log(err),
+      err => {
+        Alert.alert('Ops!', 'Nepodarilo sa získať Vašu polohu.');
+        this.props.showLoading(false);
+      },
       Constants.GEOLOCATION_PROPERTIES
     );
   }
@@ -51,7 +61,7 @@ class Search extends Component {
         {...this.props}
         searchStops = {
           () => {
-            // this.props.showLoading(true);
+            this.props.showLoading(true, 'Vyhľadávam zastávky');
 
             API.searchStops(
               {
@@ -70,9 +80,11 @@ class Search extends Component {
             .then( data => {
               this.props.foundStops(data);
               this.props.showLoading(false);
-              console.log(data);
             })
-            .catch( err =>  Alert.alert('Oops!', JSON.stringify(err)));
+            .catch( err => {
+              Alert.alert('Ops!', 'Nepodarilo sa nájsť zastávky.');
+              this.props.showLoading(false);
+            });
           }
         }
       />
@@ -92,10 +104,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userPositionLoaded: (position) => dispatch(userPositionLoaded(position)),
-    userLocationLoaded: (location) => dispatch(userLocationLoaded(location)),
-    foundStops:         (stops)    => dispatch(foundStops(stops)),
-    showLoading:        (show)     => dispatch(showLoading(show)),
+    userPositionLoaded: (position)    => dispatch(userPositionLoaded(position)),
+    userLocationLoaded: (location)    => dispatch(userLocationLoaded(location)),
+    foundStops:         (stops)       => dispatch(foundStops(stops)),
+    showLoading:        (show, text)  => dispatch(showLoading(show, text)),
 
     //value change listeners
     currentLocationChanged:     (text) => dispatch(currentLocationInputChanged(text)),

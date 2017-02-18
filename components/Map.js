@@ -9,12 +9,23 @@ export default class Map extends Component{
     super(props);
 
     let map = null;
+    let destinationMarker = null;
   }
 
   shouldComponentUpdate(nextProps){
-    
+
+    let allPoints = [];
+
     //merge points
-    const allPoints = [...nextProps.points.nearby, ...nextProps.points.destination, nextProps.currentLocationGeo];
+    if(nextProps.points.nearby.length > 0 && nextProps.points.destination.length > 0)
+      allPoints = [...nextProps.points.nearby, ...nextProps.points.destination];
+    else
+      allPoints = [nextProps.currentLocationGeo];
+
+    // update destination name 
+    if(this.destinationMarker && nextProps.points.destination.length > 0){
+      this.destinationMarker.showCallout();
+    }
 
     //center map
     this.map.fitToCoordinates(allPoints, { edgePadding: Constants.GEO.EDGE_PADDING, animated: true});
@@ -31,6 +42,7 @@ export default class Map extends Component{
                 flex: 8, 
                 alignSelf: 'stretch'
               }}>
+              {/*onPress={this.props.destinationPointMoved}>*/}
 
               {/* CURRENT USER LOCATION */}
               <MapView.Marker
@@ -38,19 +50,22 @@ export default class Map extends Component{
                     latitude: this.props.currentLocationGeo.latitude,
                     longitude: this.props.currentLocationGeo.longitude
                   }}
-                  pinColor={'#FFE135'}
+                  pinColor={'#3498db'}
                   title={'Vaša poloha'}
                   description={this.props.currentName}
               />
 
               {/* DESTINATION LOCATION */}
-              <MapView.Marker draggable onDragEnd={this.props.destinationPointMoved}
+              <MapView.Marker 
+                  draggable 
+                  onDragEnd={this.props.destinationPointMoved}
                   coordinate={{
                     latitude: this.props.destinationLocationGeo.latitude,
                     longitude: this.props.destinationLocationGeo.longitude
                   }}
-                  pinColor={'purple'}
+                  pinColor={'#8e44ad'}
                   title={'Cieľ'}
+                  ref={ref => this.destinationMarker = ref }
                   description={this.props.destinationName}
               />
 
@@ -81,15 +96,15 @@ export default class Map extends Component{
                         latitude: point.latitude,
                         longitude: point.longitude
                       }}
-                      pinColor= '#bada55'
+                      pinColor={'#2ecc71'}
                       title={point.name}
                       description={point.type + ' - ' + point.distance_in_meters + 'm'}
                     />
                   );
                 })
               }
-
-              {this.props.showLoading ? <Loading /> : null}
+              
+              <Loading show={this.props.showLoading} text={this.props.loadingText}/>
         </MapView>
       );
   }

@@ -11,7 +11,7 @@ export default () => {
         alignSelf: 'stretch'
       }
     }>
-        <Text style={{color: '#ECECEC', fontSize: 18, textAlign: 'center', marginTop: 20, fontWeight: 'bold'}}>
+        <Text style={{color: '#ECECEC', fontSize: 22, textAlign: 'center', marginTop: 20, fontWeight: 'bold'}}>
           Moja Zastávka
         </Text>
     </View>
