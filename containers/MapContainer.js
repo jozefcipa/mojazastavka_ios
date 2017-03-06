@@ -18,13 +18,13 @@ class MapContainer extends Component {
 
           searchStops(
             {
-              user_location: {
-                name: this.props.currentName,
-                latitude: this.props.currentLocationGeo.latitude, 
-                longitude: this.props.currentLocationGeo.longitude
+              start: {
+                name: this.props.startName,
+                latitude: this.props.startLocationGeo.latitude, 
+                longitude: this.props.startLocationGeo.longitude
               }, 
               destination: {
-                name: '', // name is not important here, because we want to find stops by geo coords moved destination point position
+                name: '', //searching by coordinates, name is not needed here 
                 latitude: e.nativeEvent.coordinate.latitude, 
                 longitude: e.nativeEvent.coordinate.longitude
               }
@@ -35,7 +35,7 @@ class MapContainer extends Component {
             this.props.showLoadingView(false);
           })
           .catch( err => {
-            Alert.alert('Ops!', 'Nepodarilo sa nájsť zastávky.');
+            Alert.alert('Ops!', err);
             this.props.showLoadingView(false);
           });
         }
@@ -46,22 +46,32 @@ class MapContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    showLoading: state.show_loading,
-    loadingText: state.loading_text,
-    currentLocationGeo: state.current_location_geo,
-    currentName: state.current_location || state.geolocated_address,
-    destinationLocationGeo: state.destination_location_geo,
-    destinationName: state.destination_location,
+
+    showLoading: state.showLoading,
+    loadingText: state.loadingText,
+    loadingType: state.loadingType,
+
+    startName: state.startLocation || state.geolocatedAddress,
+    startLocationGeo: state.startLocationGeo,
+
+    destinationName: state.destinationLocation,
+    destinationLocationGeo: state.destinationLocationGeo,
+
+    geolocatedAddress: state.geolocatedAddress,
+    geolocatedLocationGeo: state.geolocatedLocationGeo,
+    
     points: {
-        nearby: state.nearby_stops,
-        destination: state.destination_stops
-      }
+      nearby: state.nearbyStops,
+      destination: state.destinationStops
+    },
+
+    isMapBlocked: state._mapBlocked
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    foundStops: (stops) => dispatch(foundStops(stops)),
+    foundStops:      (stops)      => dispatch(foundStops(stops)),
     showLoadingView: (show, text) => dispatch(showLoading(show, text))
   };
 };

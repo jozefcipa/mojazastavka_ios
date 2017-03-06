@@ -6,8 +6,8 @@ import { Kohana } from 'react-native-textinput-effects';
 const styles = StyleSheet.create({
   view: {
     flex: 2, 
-    backgroundColor: '#f75757', 
-    alignSelf: 'stretch'
+    backgroundColor: '#dd0b0b', 
+    alignSelf: 'stretch',
   },
 
   input: {
@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const validateInputs = (currentLocation, geolocatedAddress, destinationLocation) => {
+const validateInputs = (startLocation, geolocatedAddress, destinationLocation) => {
 
-  if(!currentLocation && !geolocatedAddress){
+  if(!startLocation && !geolocatedAddress){
     Alert.alert('Zadajte Vašu polohu.');
     return false;
   }
@@ -37,7 +37,8 @@ export default (props) => {
   const placeholder = props.geolocatedAddress || 'Vaša poloha';
 
    return (
-      <View style={styles.view}>
+      <View 
+        style={styles.view}>
         <Kohana
             style={styles.input}
             label={placeholder}
@@ -47,10 +48,10 @@ export default (props) => {
             iconColor={'#bdc3c7'}
             labelStyle={{ color: '#bdc3c7' }}
             inputStyle={{ color: '#000'}}
-            value={props.currentLocation}
-            onChangeText={ (text) => props.currentLocationChanged(text.trim()) }
+            value={props.startLocation}
+            onChangeText={ (text) => props.startLocationChanged(text.trim()) }
             onSubmitEditing={ evt => {
-              if(validateInputs(props.currentLocation, props.geolocatedAddress, props.destinationLocation)){
+              if(validateInputs(props.startLocation, props.geolocatedAddress, props.destinationLocation)){
                 props.searchStops();
               }
             }}
@@ -67,11 +68,11 @@ export default (props) => {
             value={props.destinationLocation}
             onChangeText={ (text) => props.destinationLocationChanged(text.trim()) }
             onSubmitEditing={ evt => {
-              if(validateInputs(props.currentLocation, props.geolocatedAddress, props.destinationLocation)){
+              if(validateInputs(props.startLocation, props.geolocatedAddress, props.destinationLocation)){
                 props.searchStops();
               }
             }}
           />
-    </View>
+    </  View>
   );
 }

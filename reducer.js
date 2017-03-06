@@ -3,54 +3,66 @@ import {actionTypes} from './ActionTypes';
 const store = {
 
 	// strings from inputs
-	current_location: '',
-	destination_location: '', 
+	startLocation: '',
+	destinationLocation: '', 
 
 	//from Google api
-	geolocated_address: '',
+	geolocatedAddress: '',
 
-	//current user position
-	current_location_geo: {
+	//start user position, geolocated from input
+	startLocationGeo: {
 		latitude: 0,
 		longitude: 0
 	},
 
-	//destination position
-	destination_location_geo: {
+	//destination position, geolocated from input
+	destinationLocationGeo: {
+		latitude: 0,
+		longitude: 0
+	},
+
+	//geolocated position
+	geolocatedLocationGeo: {
 		latitude: 0,
 		longitude: 0
 	},
 
 	//found stops in nearby of destination
-	destination_stops: [],
+	destinationStops: [],
 
 	//found stops in user's nearby
-	nearby_stops: [],
+	nearbyStops: [],
 
 	//from which stop is highlighted route on map for destination stop
-	selected_destination_stop: {
+	selectedDestinationStop: {
 		latitude: 0,
 		longitude: 0
 	},
 
 	//from which stop is highlighted route on map for nearby stop
-	selected_nearby_stop: {
+	selectedNearbyStop: {
 		latitude: 0,
 		longitude: 0
 	},
 
-	show_loading: false,
-	loading_text: ''
+	//loader
+	showLoading: false,
+	loadingText: '',
+	loadingType: null,
+
+	_mapBlocked: false
 };
 
-const reducer = (state = store, action) => {
+//reducer
+export default (state = store, action) => {
 
   switch(action.type) {
 
     case actionTypes.USER_LOCATION_LOADED:
     	return {
 	      	...state,
-	      	current_location_geo: {
+	      	_mapBlocked: false,
+	      	geolocatedLocationGeo: {
 	      		latitude: action.data.latitude,
 	      		longitude: action.data.longitude
 	      }  
@@ -60,33 +72,35 @@ const reducer = (state = store, action) => {
     case actionTypes.USER_POSITION_LOADED:
     	return {
 	      	...state,
-	      	geolocated_address: action.data.address,
-	      	current_location_geo: {
-	      		latitude: action.data.latitude,
-	      		longitude: action.data.longitude
-	      }      
+	      	_mapBlocked: false,
+	      	geolocatedAddress: action.data
       };
       break;
       
-    case actionTypes.CURRENT_LOCATION_INPUT_CHANGED:
+    case actionTypes.START_LOCATION_INPUT_CHANGED:
     	return {
 	      	...state,
-	      	current_location: action.data
+	      	_mapBlocked: true,
+	      	startLocation: action.data
       };
       break;
 
     case actionTypes.DESTINATION_LOCATION_INPUT_CHANGED:
     	return {
 	      	...state,
-	      	destination_location: action.data
+	      	_mapBlocked: true,
+	      	destinationLocation: action.data
       };
       break;
 
     case actionTypes.SHOW_LOADING:
+
     	return {
 	      	...state,
-	      	show_loading: action.data.show,
-	      	loading_text: action.data.text
+	      	_mapBlocked: false,
+	      	showLoading: action.data.show,
+	      	loadingText: action.data.text,
+	      	loadingType: action.data.type
       };
       break;
 
@@ -94,15 +108,15 @@ const reducer = (state = store, action) => {
 
     	return {
 	      	...state,
-	      	destination_location: action.data.destination_name,
-	      	destination_stops: action.data.destination_stops,
-	      	nearby_stops: action.data.nearby_stops,
-	      	destination_location_geo: action.data.destination
+	      	_mapBlocked: false,
+	      	destinationLocation: action.data.destinationName,
+	      	destinationStops: action.data.destinationStops,
+	      	nearbyStops: action.data.nearbyStops,
+	      	destinationLocationGeo: action.data.destinationGeo,
+	      	startLocationGeo: action.data.startGeo
       };
       break;
   }
 
   return state;
-}
-
-export default reducer;
+};

@@ -43,7 +43,7 @@ export default class App extends Component{
             justifyContent: 'center',
             flex: 1
           }
-        }>
+        }>     
           <Header/> 
           <Search/>
           <MapContainer/>

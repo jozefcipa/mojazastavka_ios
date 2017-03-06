@@ -1,7 +1,11 @@
 node_modules/
-ios/build/
-ios/mojazastavka_iosTests
-__tests__
+__tests__/
 android/
 index.android.js
 yarn.lock
+ios/mojazastavka_iosTests/
+ios/build/Logs/
+ios/build/ModuleCache/
+main.jsbundle.meta
+ios/build/
+

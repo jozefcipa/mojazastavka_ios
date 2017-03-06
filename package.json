@@ -8,8 +8,9 @@
 	},
 	"dependencies": {
 		"react": "~15.4.0-rc.4",
-		"react-native": "0.39.0",
-		"react-native-maps": "^0.12.4",
+		"react-native": "0.38.0",
+		"react-native-linear-gradient": "^2.0.0",
+		"react-native-maps": "^0.12.2",
 		"react-native-textinput-effects": "^0.3.0",
 		"react-native-vector-icons": "^4.0.0",
 		"react-redux": "^5.0.2",

@@ -7,7 +7,7 @@ import {
   userLocationLoaded,
   userPositionLoaded, 
   foundStops, 
-  currentLocationInputChanged,
+  startLocationInputChanged,
   destinationLocationInputChanged,
   showLoading
 } from '../Actions';
@@ -18,12 +18,27 @@ class Search extends Component {
   constructor(props) {
     super(props);
 
-    // load user position
+    this.geolocate();
+
+    // load user position every 20 seconds
+    setInterval(() => this.geolocate(false), 20000);
+  }
+
+  geolocate(showLoadingBar = true){
     navigator.geolocation.getCurrentPosition( position => {
 
-        this.props.showLoading(true, 'Lokalizujem Vašu polohu');
-
         const location = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+
+        //if position hasn't changed, just return
+        if(location.latitude.toFixed(3) === this.props.startLocationGeo.latitude.toFixed(3) &&
+            location.longitude.toFixed(3) === this.props.startLocationGeo.longitude.toFixed(3)){
+            return;
+        }
+
+        if(showLoadingBar)
+          this.props.showLoading(true, 'Lokalizujem Vašu polohu');
+        else
+          this.props.showLoading(true, '', Constants.LOADING_INDICATOR);
 
         //save coords
         this.props.userLocationLoaded(location);
@@ -34,25 +49,15 @@ class Search extends Component {
 
               const geolocated = res.results[0]; //parse first result
 
-              this.props.userPositionLoaded({
-                address: geolocated.formatted_address,
-                latitude: geolocated.geometry.location.lat,
-                longitude: geolocated.geometry.location.lng
-              });
+              this.props.userPositionLoaded(geolocated.formatted_address);
 
               this.props.showLoading(false);
           })
-          .catch(err => {
-            Alert.alert('Ops!', 'Nepodarilo sa získať Vašu polohu.');
-            this.props.showLoading(false);
-          });
+          .catch(err => this.props.showLoading(false));
       }, 
-      err => {
-        Alert.alert('Ops!', 'Nepodarilo sa získať Vašu polohu.');
-        this.props.showLoading(false);
-      },
+      err => this.props.showLoading(false),
       Constants.GEOLOCATION_PROPERTIES
-    );
+     );
   }
 
   render() {
@@ -61,28 +66,32 @@ class Search extends Component {
         {...this.props}
         searchStops = {
           () => {
-            this.props.showLoading(true, 'Vyhľadávam zastávky');
+            this.props.showLoading(true, 'Hľadám zastávky');
 
             API.searchStops(
               {
-                user_location: {
-                  name: this.props.currentLocation,
-                  latitude: this.props.currentLocationGeo.latitude, 
-                  longitude: this.props.currentLocationGeo.longitude
+                start: {
+                  name: this.props.startLocation,
+                  latitude: this.props.geolocatedLocationGeo.latitude, 
+                  longitude: this.props.geolocatedLocationGeo.longitude
                 }, 
                 destination: {
                   name: this.props.destinationLocation,
-                  latitude: this.props.destinationLocationGeo.latitude, 
-                  longitude: this.props.destinationLocationGeo.longitude
+                  latitude: null,
+                  longitude: null
                 }
               }
             ) 
             .then( data => {
-              this.props.foundStops(data);
+              if(data.nearbyStops.length < 1 || data.destinationStops.length < 1){
+                Alert.alert('Ops!', 'Nenašli sa žiadne zastávky.');
+              }else{
+                this.props.foundStops(data);
+              }
               this.props.showLoading(false);
             })
             .catch( err => {
-              Alert.alert('Ops!', 'Nepodarilo sa nájsť zastávky.');
+              Alert.alert('Ops!', err);
               this.props.showLoading(false);
             });
           }
@@ -93,24 +102,27 @@ class Search extends Component {
 }
 
 const mapStateToProps = state => {
+
   return {
-    currentLocation: state.current_location,
-    destinationLocation: state.destination_location,
-    geolocatedAddress: state.geolocated_address,
-    currentLocationGeo: state.current_location_geo,
-    destinationLocationGeo: state.destination_location_geo,
+    startLocation: state.startLocation,
+    destinationLocation: state.destinationLocation,
+
+    geolocatedAddress: state.geolocatedAddress,
+
+    geolocatedLocationGeo: state.geolocatedLocationGeo,
+    startLocationGeo: state.startLocationGeo
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    userPositionLoaded: (position)    => dispatch(userPositionLoaded(position)),
-    userLocationLoaded: (location)    => dispatch(userLocationLoaded(location)),
-    foundStops:         (stops)       => dispatch(foundStops(stops)),
-    showLoading:        (show, text)  => dispatch(showLoading(show, text)),
+    userPositionLoaded: (position)          => dispatch(userPositionLoaded(position)),
+    userLocationLoaded: (location)          => dispatch(userLocationLoaded(location)),
+    foundStops:         (stops)             => dispatch(foundStops(stops)),
+    showLoading:        (show, text, type)  => dispatch(showLoading(show, text, type)),
 
     //value change listeners
-    currentLocationChanged:     (text) => dispatch(currentLocationInputChanged(text)),
+    startLocationChanged:       (text) => dispatch(startLocationInputChanged(text)),
     destinationLocationChanged: (text) => dispatch(destinationLocationInputChanged(text)),
   };
 };

@@ -1,4 +1,5 @@
 import {actionTypes} from './ActionTypes';
+import Constants from './Constants';
 
 export function userLocationLoaded(location) {
   return {
@@ -7,10 +8,10 @@ export function userLocationLoaded(location) {
   };
 }
 
-export function userPositionLoaded(position){
+export function userPositionLoaded(address){
   return {
     type: actionTypes.USER_POSITION_LOADED,
-    data: position
+    data: address
   };
 }
 
@@ -21,9 +22,9 @@ export function foundStops(stops) {
   };
 }
 
-export function currentLocationInputChanged(value) {
+export function startLocationInputChanged(value) {
   return {
-    type: actionTypes.CURRENT_LOCATION_INPUT_CHANGED,
+    type: actionTypes.START_LOCATION_INPUT_CHANGED,
     data: value
   };
 }
@@ -35,9 +36,9 @@ export function destinationLocationInputChanged(value) {
   };
 }
 
-export function showLoading(show, text = '') {
+export function showLoading(show, text = '', type=Constants.LOADING_FULL) {
   return {
     type: actionTypes.SHOW_LOADING,
-    data: {show, text}
+    data: {show, text, type}
   };
 }
