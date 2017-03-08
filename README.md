@@ -3,6 +3,11 @@ iOS version of mojazastavka application in React Native
 
 Go check it out main [API repository](https://github.com/JozefCipa/mojazastavka_api).
 
+# v1.02 alpha
+<img src="http://i.imgur.com/VtXJNb1.png" width="240">
+<img src="http://i.imgur.com/wLE1CFL.png" width="240">
+
+# v1.0
 <img src="http://i.imgur.com/QiRPtBi.jpg" width="240">
 <img src="http://i.imgur.com/tj6eZ7N.jpg" width="240">
 
