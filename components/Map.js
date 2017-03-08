@@ -115,7 +115,7 @@ export default class Map extends Component{
                         longitude: point.longitude
                       }}
                       image={pointImg}>
-                        <Callout {...point} descriptionText={this.parseDistance(parseFloat(point.distance_in_meters)) + ' od Vás'} />
+                        <Callout {...point} descriptionText={parseDistance(parseFloat(point.distance_in_meters)) + ' od Vás'} />
                     </MapView.Marker>
                   );
                 })
@@ -132,7 +132,7 @@ export default class Map extends Component{
                         longitude: point.longitude
                       }}
                       image={pointImg}>
-                        <Callout {...point} descriptionText={this.parseDistance(parseFloat(point.distance_in_meters)) + ' do cieľa'}/>
+                        <Callout {...point} descriptionText={parseDistance(parseFloat(point.distance_in_meters)) + ' do cieľa'}/>
                       </MapView.Marker>
                   );
                 })
