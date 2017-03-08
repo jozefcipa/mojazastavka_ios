@@ -26,6 +26,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		B0C7B4D45A62487CAE65D8C9 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7EADAA8FE674643A36AF068 /* libBVLinearGradient.a */; };
+		C415C2901E6F0A730026AF79 /* VarelaRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C415C2831E6F08850026AF79 /* VarelaRound-Regular.ttf */; };
 		C4958C8B1E535E9F00A186D4 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4958C771E535E6D00A186D4 /* libAirMaps.a */; };
 		C4AECDDC1E535CB300F70826 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4AECDD21E535CB300F70826 /* FontAwesome.ttf */; };
 		C4AECDE01E535CB300F70826 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4AECDD61E535CB300F70826 /* MaterialIcons.ttf */; };
@@ -225,6 +226,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83504F1D59054196948D3022 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		986273184AD94A80896BEF1F /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		C415C2831E6F08850026AF79 /* VarelaRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "VarelaRound-Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/VarelaRound-Regular.ttf"; sourceTree = "<group>"; };
 		C4958C721E535E6C00A186D4 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		C4AECDD01E535CB300F70826 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
 		C4AECDD11E535CB300F70826 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 		13B07FAE1A68108700A75B9A /* mojazastavka_ios */ = {
 			isa = PBXGroup;
 			children = (
+				C415C2831E6F08850026AF79 /* VarelaRound-Regular.ttf */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -815,6 +818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C415C2901E6F0A730026AF79 /* VarelaRound-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C4AECDDC1E535CB300F70826 /* FontAwesome.ttf in Resources */,
 				C4AECDE01E535CB300F70826 /* MaterialIcons.ttf in Resources */,

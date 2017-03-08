@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { AppRegistry, View, Alert, NetInfo, AsyncStorage } from 'react-native';
 
 import store  from './store';
-import Header from './components/Header';
-import Search from './containers/Search';
+import HeaderContainer from './containers/HeaderContainer';
+import SearchContainer from './containers/SearchContainer';
 import MapContainer from './containers/MapContainer';
 
 export default class App extends Component{
@@ -36,17 +36,15 @@ export default class App extends Component{
   render(){
     return (
       <Provider store={store}>
-        <View style={
-          {
+        <View style={{
             flexDirection: 'column', 
             alignItems: 'center',
             justifyContent: 'center',
             flex: 1
-          }
-        }>     
-          <Header/> 
-          <Search/>
-          <MapContainer/>
+          }}>     
+            <HeaderContainer/> 
+            <SearchContainer/>
+            <MapContainer/>
         </View>
       </Provider>
     );

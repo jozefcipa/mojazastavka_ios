@@ -6,6 +6,19 @@ const store = {
 	startLocation: '',
 	destinationLocation: '', 
 
+	//selected city
+	//TODO THIS IS JUST TEMPORARY
+	selectedCity: {
+		id: -1,
+		name: '',
+		name_escaped: ''
+	},
+
+	//available cities
+	cities: [],
+
+	citiesModalVisible: false,
+	
 	//from Google api
 	geolocatedAddress: '',
 
@@ -116,6 +129,39 @@ export default (state = store, action) => {
 	      	startLocationGeo: action.data.startGeo
       };
       break;
+
+    case actionTypes.CITIES_LOADED:
+    	return {
+	      	...state,
+	      	_mapBlocked: true,
+	      	cities: action.data
+	  	};
+    	break;
+
+    case actionTypes.SELECT_CITY:
+    	return {
+	      	...state,
+	      	_mapBlocked: true,
+	      	selectedCity: action.data
+	  	};
+    	break;
+
+    case actionTypes.SHOW_CITIES_MODAL:
+    	return {
+	      	...state,
+	      	_mapBlocked: true,
+	      	citiesModalVisible: action.data
+	  	};
+    	break;
+
+    case actionTypes.SWAP_SEARCH_VALUES:
+    	return {
+	      	...state,
+	      	_mapBlocked: true,
+	      	startLocation: state.destinationLocation,
+	      	destinationLocation: state.startLocation
+	  	};
+    	break;
   }
 
   return state;

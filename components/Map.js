@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import MapView from 'react-native-maps';
+import { parseDistance, calculateToleranceCoords } from '../helpers';
 import Loading from './Loading';
 import Constants from '../Constants';
 import pointImg from '../assets/point.png';
@@ -25,10 +26,15 @@ export default class Map extends Component{
 
     //merge points
     if(nextProps.points.nearby.length > 0 && nextProps.points.destination.length > 0){
-      allPoints = [...nextProps.points.nearby, ...nextProps.points.destination];
+      allPoints = [
+        ...nextProps.points.nearby, 
+        ...nextProps.points.destination,
+        nextProps.startLocationGeo,
+        nextProps.destinationLocationGeo
+      ];
 
       // update destination name 
-      //TEMPORARY DISABLED, SHOWS WEIRD CALLOUT
+      //TODO: SHOWS WEIRD CALLOUT
       if(this.destinationMarker){
         this.destinationMarker.showCallout();
       }
@@ -38,7 +44,10 @@ export default class Map extends Component{
       allPoints = [...Constants.GEO.DEFAULT_COORDS];
     }
     else{
-      allPoints = [nextProps.geolocatedLocationGeo];
+      allPoints = [
+        nextProps.geolocatedLocationGeo,
+        ...calculateToleranceCoords(nextProps.geolocatedLocationGeo, Constants.GEO.RADIUS_KM)
+      ];
     }
 
     //center map
@@ -82,15 +91,16 @@ export default class Map extends Component{
                     null
               }
 
-              {/* DESTINATION LOCATION */}
-              {/* PUT TO Marker: draggable onDragEnd={this.props.destinationPointMoved}*/}
+              {/* DESTINATION LOCATION image={finishImg}*/}
               <MapView.Marker 
+                draggable
+                onDragEnd={this.props.destinationPointMoved}
                 coordinate={{
                   latitude: this.props.destinationLocationGeo.latitude,
                   longitude: this.props.destinationLocationGeo.longitude
                 }}
                 ref={ref => this.destinationMarker = ref }
-                image={finishImg}>
+                >
                   <Callout type={'FINISH'} name={'Cieľ'} descriptionText={this.props.destinationName} />
               </MapView.Marker>
 
@@ -105,7 +115,7 @@ export default class Map extends Component{
                         longitude: point.longitude
                       }}
                       image={pointImg}>
-                        <Callout {...point} descriptionText={point.distance_in_meters + 'm od Vás'} />
+                        <Callout {...point} descriptionText={this.parseDistance(parseFloat(point.distance_in_meters)) + ' od Vás'} />
                     </MapView.Marker>
                   );
                 })
@@ -122,7 +132,7 @@ export default class Map extends Component{
                         longitude: point.longitude
                       }}
                       image={pointImg}>
-                        <Callout {...point} descriptionText={point.distance_in_meters + 'm do cieľa'}/>
+                        <Callout {...point} descriptionText={this.parseDistance(parseFloat(point.distance_in_meters)) + ' do cieľa'}/>
                       </MapView.Marker>
                   );
                 })

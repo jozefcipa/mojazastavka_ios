@@ -1,11 +1,11 @@
 import Constants from './Constants';
 
-export function searchStops({start = {name, latitude, longitude}, destination = {name, latitude, longitude}} = {}){
+export function searchStops({start = {name, latitude, longitude}, destination = {name, latitude, longitude}, city} = {}){
 
 	const startUri = `start[name]=${encodeURIComponent(start.name)}&start[lat]=${start.latitude}&start[lng]=${start.longitude}`;
 	const destinationUri = `destination[name]=${encodeURIComponent(destination.name)}&destination[lat]=${destination.latitude}&destination[lng]=${destination.longitude}`;
 	
-	const URL = `${Constants.FIND_STOPS}?${startUri}&${destinationUri}&count=${Constants.STOPS_COUNT}`;
+	const URL = `${Constants.FIND_STOPS_URL}?${startUri}&${destinationUri}&city=${encodeURIComponent(city)}&count=${Constants.STOPS_COUNT}`;
 	return new Promise((resolve, reject) => {
             fetch(URL)
 	            .then( res => res.json()) //parse response to JSON
@@ -24,7 +24,7 @@ export function searchStops({start = {name, latitude, longitude}, destination = 
 
 export function geolocateUser({latitude, longitude} = {}){
 
-	const URL = `${Constants.GEOLOCATE_USER}${latitude},${longitude}&key=${Constants.GAPI_KEY}`;
+	const URL = `${Constants.GEOLOCATE_USER_URL}${latitude},${longitude}&key=${Constants.GAPI_KEY}`;
 	
 	return new Promise((resolve, reject) => {
             fetch(URL)
@@ -45,7 +45,7 @@ export function geolocateUser({latitude, longitude} = {}){
 //TODO
 export function findRoute({start = {latitude, longitude}, destination = {latitude, longitude}} = {}){
 
-	const URL = `${Constants.FIND_ROUTE}`;
+	const URL = `${Constants.DIRECTIONS_API_URL}&key=${Constants.GAPI_KEY}`;
 	
 	return new Promise((resolve, reject) => {
             fetch(URL)
@@ -63,10 +63,29 @@ export function findRoute({start = {latitude, longitude}, destination = {latitud
     );
 }
 
+export function loadCities(){
+
+	return new Promise((resolve, reject) => {
+            fetch(Constants.LOAD_CITIES_URL)
+	            .then( res => res.json()) //parse response to JSON
+	            .then( data => {
+	            	if(data.status == "OK"){
+	            		resolve(data);
+	            	}
+	            	else{
+	            		reject(data.error);
+	            	}
+	            })
+	            .catch(err => reject(err));
+        }
+    );
+}
+
 const API = {
 	searchStops,
 	geolocateUser,
-	findRoute
+	findRoute,
+	loadCities
 };
 
 export default API;

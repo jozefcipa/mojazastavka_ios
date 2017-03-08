@@ -42,3 +42,30 @@ export function showLoading(show, text = '', type=Constants.LOADING_FULL) {
     data: {show, text, type}
   };
 }
+
+export function citiesLoaded(cities) {
+  return {
+    type: actionTypes.CITIES_LOADED,
+    data: cities
+  };
+}
+
+export function selectCity(cityId) {
+  return {
+    type: actionTypes.SELECT_CITY,
+    data: cityId
+  };
+}
+
+export function showCitiesModal(show) {
+  return {
+    type: actionTypes.SHOW_CITIES_MODAL,
+    data: show
+  };
+}
+
+export function swapSearchValues(){
+  return {
+    type: actionTypes.SWAP_SEARCH_VALUES
+  }
+}

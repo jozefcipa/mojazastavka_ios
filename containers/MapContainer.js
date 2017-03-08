@@ -27,17 +27,13 @@ class MapContainer extends Component {
                 name: '', //searching by coordinates, name is not needed here 
                 latitude: e.nativeEvent.coordinate.latitude, 
                 longitude: e.nativeEvent.coordinate.longitude
-              }
+              },
+              city: this.props.selectedCity.name
             }
           ) 
-          .then( data => {
-            this.props.foundStops(data);
-            this.props.showLoadingView(false);
-          })
-          .catch( err => {
-            Alert.alert('Ops!', err);
-            this.props.showLoadingView(false);
-          });
+          .then( data => this.props.foundStops(data))
+          .catch( err => Alert.alert('Ops!', err))
+          .then(() => this.props.showLoadingView(false));
         }
       }/>
     );
@@ -65,7 +61,10 @@ const mapStateToProps = state => {
       destination: state.destinationStops
     },
 
-    isMapBlocked: state._mapBlocked
+    isMapBlocked: state._mapBlocked,
+
+    selectedCity: state.selectedCity,
+
   };
 };
 
