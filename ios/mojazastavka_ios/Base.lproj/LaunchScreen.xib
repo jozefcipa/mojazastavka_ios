@@ -22,44 +22,56 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moja zastávka" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v6X-Rc-icA">
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moja zastávka" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="244" id="b2j-dD-NnE"/>
+                                <constraint firstAttribute="height" constant="43" id="nND-gs-epI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="VarelaRound-Regular" family="Varela Round" pointSize="28"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="CYs-DA-ant">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="105" id="FoI-3A-bF2"/>
+                                <constraint firstAttribute="height" constant="102" id="Fqe-Jl-ijC"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.03 alfa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="I7C-an-AEA">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="hOm-6w-yVj"/>
+                                <constraint firstAttribute="width" constant="65.5" id="oFx-sV-DHC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="VarelaRound-Regular" family="Varela Round" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96470588239999999" green="0.2784313725" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="43" id="LOk-ED-869"/>
-                        <constraint firstAttribute="width" constant="244" id="eWk-lL-raN"/>
+                        <constraint firstItem="kId-c2-rCX" firstAttribute="centerX" secondItem="v6X-Rc-icA" secondAttribute="centerX" id="2qy-TF-Aeg"/>
+                        <constraint firstItem="CYs-DA-ant" firstAttribute="top" secondItem="v6X-Rc-icA" secondAttribute="top" constant="12" id="C7D-fo-XOS"/>
+                        <constraint firstItem="I7C-an-AEA" firstAttribute="top" secondItem="CYs-DA-ant" secondAttribute="bottom" constant="44" id="e45-gE-a1k"/>
+                        <constraint firstAttribute="height" constant="215" id="qdk-tU-eIk"/>
+                        <constraint firstAttribute="width" constant="284" id="thQ-Pw-V9W"/>
+                        <constraint firstItem="CYs-DA-ant" firstAttribute="centerX" secondItem="v6X-Rc-icA" secondAttribute="centerX" id="u8j-Iv-jcS"/>
+                        <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="CYs-DA-ant" secondAttribute="bottom" constant="8" id="xqm-YV-QGg"/>
+                        <constraint firstItem="I7C-an-AEA" firstAttribute="centerX" secondItem="v6X-Rc-icA" secondAttribute="centerX" id="zoU-9m-uib"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="VarelaRound-Regular" family="Varela Round" pointSize="28"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="CYs-DA-ant">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="102" id="72j-pt-dvT"/>
-                        <constraint firstAttribute="width" constant="105" id="AjS-WX-BSx"/>
-                    </constraints>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.02 alfa" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="I7C-an-AEA">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="jXC-gv-k0L"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="VarelaRound-Regular" family="Varela Round" pointSize="14"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.96470588235294119" green="0.27843137254901962" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="CYs-DA-ant" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="DRf-xM-oi5"/>
-                <constraint firstItem="I7C-an-AEA" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Fd5-Zo-mrW"/>
+                <constraint firstItem="v6X-Rc-icA" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="IkG-3Y-iHy"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="N7Q-ck-VrM"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="top" secondItem="CYs-DA-ant" secondAttribute="bottom" id="gC7-1W-Zk4"/>
-                <constraint firstItem="CYs-DA-ant" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ibA-cA-PGy"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="ji7-vs-c6z"/>
+                <constraint firstItem="v6X-Rc-icA" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="kLr-i6-d10"/>
                 <constraint firstAttribute="trailing" secondItem="8ie-xW-0ye" secondAttribute="trailing" constant="20" id="nDn-WQ-44k"/>
-                <constraint firstItem="I7C-an-AEA" firstAttribute="top" secondItem="kId-c2-rCX" secondAttribute="bottom" id="sgt-0p-ZNA"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="u1M-wC-IPJ"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

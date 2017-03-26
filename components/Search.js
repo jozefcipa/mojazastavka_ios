@@ -8,12 +8,13 @@ import swapIcon from '../assets/swap.png';
 const styles = StyleSheet.create({
   view: {
     // flex: 2, TODO: edit text inputs to show placeholder vertically centered, then uncomment this line
-    height: 115,
-    backgroundColor: '#dd0b0b', 
+    height: 110,
+    backgroundColor: '#f64747', 
     alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 2
   },
 
   inputsWrap: {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 5,
     marginTop: 0,
-    borderRadius: 2,
+    borderRadius: 2
   }
 });
 

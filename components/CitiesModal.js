@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import checked from '../assets/checked.png';
 
 export default ({cities, selectedCity, changeCity}) => {
@@ -23,7 +23,6 @@ export default ({cities, selectedCity, changeCity}) => {
               }
             </ScrollView>
       </View>
-
     </View>
   );
 }
@@ -37,23 +36,23 @@ const styles = StyleSheet.create({
   },
 
   view:{
-    marginHorizontal: 20,
     backgroundColor: 'white',
     height: 300,
-    minWidth: 300,
     borderRadius: 5,
-    padding: 20
+    padding: 20,
+    width: Dimensions.get('window').width - 40 // 40 is margin
   },
 
   title:{
     fontWeight: 'bold',
     fontSize: 16,
     paddingBottom: 10,
-    textAlign: 'center'
+    textAlign: 'center',
   },
 
   cityWrap:{
     margin: 3,
+    marginVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     flexDirection: 'row',

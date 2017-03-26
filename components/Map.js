@@ -4,9 +4,12 @@ import { parseDistance, calculateToleranceCoords } from '../helpers';
 import Loading from './Loading';
 import Constants from '../Constants';
 import pointImg from '../assets/point.png';
+import busStop from '../assets/busStop.png';
+import tramStop from '../assets/tramStop.png';
 import finishImg from '../assets/finishPoint.png';
 import userLocationImg from '../assets/userLocation.png';
 import Callout from './Callout';
+import isEqual from 'lodash.isequal';
 
 export default class Map extends Component{
 
@@ -15,43 +18,23 @@ export default class Map extends Component{
 
     let map = null;
     let destinationMarker = null;
+    let mapPoints = [];
   }
 
   shouldComponentUpdate(nextProps){
 
-    if(nextProps.isMapBlocked)
+    if(nextProps.isMapBlocked){
       return false;
+    }
 
-    let allPoints = [];
-
-    //merge points
-    if(nextProps.points.nearby.length > 0 && nextProps.points.destination.length > 0){
-      allPoints = [
-        ...nextProps.points.nearby, 
-        ...nextProps.points.destination,
-        nextProps.startLocationGeo,
-        nextProps.destinationLocationGeo
-      ];
-
-      // update destination name 
-      //TODO: SHOWS WEIRD CALLOUT
-      if(this.destinationMarker){
+    if(! isEqual(nextProps.mapCenterPoints, this.props.mapCenterPoints)){
+      
+      if(this.destinationMarker != null){
         this.destinationMarker.showCallout();
       }
-    }
-    // if geolocation is disabled, center map to default coords
-    else if (nextProps.geolocatedLocationGeo.latitude == 0 || nextProps.geolocatedLocationGeo.longitude == 0) {
-      allPoints = [...Constants.GEO.DEFAULT_COORDS];
-    }
-    else{
-      allPoints = [
-        nextProps.geolocatedLocationGeo,
-        ...calculateToleranceCoords(nextProps.geolocatedLocationGeo, Constants.GEO.RADIUS_KM)
-      ];
-    }
 
-    //center map
-    this.map.fitToCoordinates(allPoints, { edgePadding: Constants.GEO.EDGE_PADDING, animated: true});
+      this.map.fitToCoordinates(nextProps.mapCenterPoints, { edgePadding: Constants.GEO.EDGE_PADDING, animated: true});
+    }
 
     return true;
   }
@@ -76,7 +59,7 @@ export default class Map extends Component{
                   <Callout type={'GEO'} name={'Vaša poloha'} descriptionText={this.props.geolocatedAddress} />
               </MapView.Marker>
 
-              {/* START USER LOCATION */}
+              {/* START USER LOCATION image={userLocationImg}*/}
               {
                 this.props.geolocatedAddress !== this.props.startName ? 
                   <MapView.Marker
@@ -84,7 +67,7 @@ export default class Map extends Component{
                       latitude: this.props.startLocationGeo.latitude,
                       longitude: this.props.startLocationGeo.longitude
                     }}
-                    image={userLocationImg}>
+                    pinColor={'#19B5FE'}>
                       <Callout type={'START'} name={'Štart'} descriptionText={this.props.startName} />
                   </MapView.Marker>
                   : 
@@ -99,8 +82,8 @@ export default class Map extends Component{
                   latitude: this.props.destinationLocationGeo.latitude,
                   longitude: this.props.destinationLocationGeo.longitude
                 }}
-                ref={ref => this.destinationMarker = ref }
-                >
+                pinColor={'#2ECC71'}
+                ref={ref => this.destinationMarker = ref }>
                   <Callout type={'FINISH'} name={'Cieľ'} descriptionText={this.props.destinationName} />
               </MapView.Marker>
 
@@ -114,12 +97,23 @@ export default class Map extends Component{
                         latitude: point.latitude,
                         longitude: point.longitude
                       }}
-                      image={pointImg}>
+                      image={pointImg}
+                      onPress={() => {
+                        this.props.selectStop(point.name);
+                        this.props.showDirection(point.directions, Constants.NEARBY_DIRECTION);
+                      }}>
                         <Callout {...point} descriptionText={parseDistance(parseFloat(point.distance_in_meters)) + ' od Vás'} />
                     </MapView.Marker>
                   );
                 })
               }
+
+              {/* SELECTED NEARBY DIRECTION */}
+              <MapView.Polyline
+                  coordinates={this.props.nearbyDirection}
+                  strokeWidth={5}
+                  strokeColor={'#19B5FE'}
+              />
 
               {/* DESTINATION STOPS */}
               {
@@ -131,12 +125,23 @@ export default class Map extends Component{
                         latitude: point.latitude,
                         longitude: point.longitude
                       }}
-                      image={pointImg}>
+                      image={pointImg}
+                      onPress={() => {
+                        this.props.selectStop(point.name);
+                        this.props.showDirection(point.directions, Constants.DESTINATION_DIRECTION)
+                      }}>
                         <Callout {...point} descriptionText={parseDistance(parseFloat(point.distance_in_meters)) + ' do cieľa'}/>
                       </MapView.Marker>
                   );
                 })
               }
+
+              {/* SELECTED DESTINATION DIRECTION */}
+              <MapView.Polyline
+                  coordinates={this.props.destinationDirection}
+                  strokeWidth={5}
+                  strokeColor={'#2ECC71'}
+              />
               <Loading show={this.props.showLoading} text={this.props.loadingText} type={this.props.loadingType}/>
         </MapView>
       );

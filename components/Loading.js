@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StatusBar} from 'react-native';
+import {View, Text, Image, StatusBar, Dimensions} from 'react-native';
 import Constants from '../Constants';
 import loadingGif from '../assets/loader.gif';
 
@@ -38,7 +38,8 @@ export default (props) => {
                 paddingBottom: 10,
                 paddingLeft: 30,
                 paddingRight: 30,
-                alignItems: 'center'
+                alignItems: 'center',
+                width: Dimensions.get('window').width - 40,
               }
             }>
               <Image source={loadingGif} style={{marginBottom: 10}}/>

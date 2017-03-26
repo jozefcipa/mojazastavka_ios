@@ -26,8 +26,7 @@ class SearchContainer extends Component {
           () => {
             this.props.showLoading(true, 'Hľadám zastávky');
 
-            API.searchStops(
-              {
+            API.searchStops({
                 start: {
                   name: this.props.startLocation,
                   latitude: this.props.geolocatedLocationGeo.latitude, 

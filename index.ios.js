@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { AppRegistry, View, Alert, NetInfo, AsyncStorage } from 'react-native';
-
+import Constants from './Constants';
 import store  from './store';
 import HeaderContainer from './containers/HeaderContainer';
 import SearchContainer from './containers/SearchContainer';
 import MapContainer from './containers/MapContainer';
+import DeparturesContainer from './containers/DeparturesContainer';
+import {
+  setCustomTextInput,
+  setCustomText,
+} from 'react-native-global-props';
+
+const textFontFamily = {
+  style: {
+    fontFamily: 'Varela Round',
+  }
+};
+
+setCustomText(textFontFamily);
+setCustomTextInput(textFontFamily);
 
 export default class App extends Component{
 
@@ -14,15 +28,6 @@ export default class App extends Component{
     
     //check for internet connection
     NetInfo.addEventListener('change', this.handleConnectivityChange);
-
-    //show welcome message, after first app launch
-    AsyncStorage.getItem('APP_LAUNCHED', (err, result) => {
-      if(result !== 'true'){
-        Alert.alert('Vitajte', 'Aplikácia Moja zastávka je tu pre Vás v prípade, že sa potrebujete dostať do cieľa pomocou MHD a neviete, ktorá zastávka je ta správna.');
-
-        AsyncStorage.setItem('APP_LAUNCHED', 'true');
-      }
-    });
   }
 
   handleConnectivityChange(reach){
@@ -45,6 +50,7 @@ export default class App extends Component{
             <HeaderContainer/> 
             <SearchContainer/>
             <MapContainer/>
+            <DeparturesContainer/>
         </View>
       </Provider>
     );

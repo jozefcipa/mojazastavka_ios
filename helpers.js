@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 export function validateInputs(startLocation, geolocatedAddress, destinationLocation){
 
@@ -10,6 +10,21 @@ export function validateInputs(startLocation, geolocatedAddress, destinationLoca
 
   if(!destinationLocation){
     Alert.alert('Zadajte cieľovú polohu.');
+    return false;
+  }
+
+  return true;
+}
+
+
+export function validateDeparturesInputs(startStop, destinationStop){
+  if(!startStop){
+    Alert.alert('Zvoľte začiatočnú zastávku.');
+    return false;
+  }
+
+  if(!destinationStop){
+    Alert.alert('Zvoľte cieľovú zastávku.');
     return false;
   }
 
@@ -38,4 +53,27 @@ export function calculateToleranceCoords(coords, radiusKm){
 			longitude: coords.longitude - (radiusKm / 6478) * (180 / Math.PI)
 		}
 	];
+}
+
+/**
+* Returns datetime in format hh:mm DD.MM.YYY
+*/
+export function formatTime(timestamp){
+
+  let d = new Date(timestamp);
+
+  let hours = d.getHours();
+  let minutes = d.getMinutes();
+
+  if(hours < 10){
+    hours  = '0' + hours;
+  }
+
+  if(minutes < 10){
+    minutes = '0' + minutes;
+  }
+  let timeString = hours + ':' + minutes;
+  let dateString = d.getDate() + '.' + (d.getMonth() + 1) + '.' +  d.getFullYear();
+
+  return timeString + ' ' + dateString;
 }

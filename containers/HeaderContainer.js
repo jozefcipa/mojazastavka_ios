@@ -10,6 +10,7 @@ import {
   showCitiesModal,
   userLocationLoaded,
   userPositionLoaded,
+  firstGeolocationDone
 } from '../Actions';
 import Header from '../components/Header';
 
@@ -18,69 +19,83 @@ class HeaderContainer extends Component {
     super(props);
 
     //geolocation
-    this.geolocate();
-
-    // refresh user position every 20 seconds
-    // TODO turn on on commit
-    // setInterval(() => this.geolocate(false), 20000);
+    navigator.geolocation.watchPosition(position => this.geolocate(position), 
+      err => this.props.showLoading(false),
+      Constants.GEOLOCATION_PROPERTIES);
 
     //loads available cities from server
     this.props.showLoading(true, 'Načítavam zoznam miest');
 
     API.loadCities()
       .then(data => this.props.citiesLoaded(data.cities))
-      .catch(err => Alert.alert('Ops!', 'Nepodarilo sa načítať zoznam miest.'))
+      .catch(err => Alert.alert('Ops!', err))
       .then(() => {
         this.props.showLoading(false);
 
         //show cities modal, if user hasn't chose his city yet
-        AsyncStorage.getItem('SELECTED_CITY', (err, city) => {
-          if(city != null)
+        AsyncStorage.getItem(Constants.SELECTED_CITY, (err, city) => {
+          if(city != null){
             this.props.selectCity(JSON.parse(city));
-          else
+          }
+          else{
             this.props.showCitiesModal(true);
+          }
         });
       });
   }
 
-  geolocate(showLoadingBar = true){
-    navigator.geolocation.getCurrentPosition( position => {
+  geolocate(position){
 
-        const location = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+    const location = {latitude: position.coords.latitude, longitude: position.coords.longitude};
 
-        //if position hasn't changed, just return
-        if(location.latitude.toFixed(3) === this.props.startLocationGeo.latitude.toFixed(3) &&
-            location.longitude.toFixed(3) === this.props.startLocationGeo.longitude.toFixed(3)){
-            return;
-        }
+    //if position hasn't changed, just return
+    if(location.latitude === this.props.geolocatedLocationGeo.latitude){
+        return;
+    }
 
-        if(showLoadingBar)
-          this.props.showLoading(true, 'Lokalizujem Vašu polohu');
-        else
-          this.props.showLoading(true, '', Constants.LOADING_INDICATOR);
+    let firstGeolocationDone = this.props.geolocatedAddress !== '';
 
-        //save coords
-        this.props.userLocationLoaded(location);
+    //show loading dialog only during first geolocation, when app launches
+    if(firstGeolocationDone)
+      this.props.showLoading(true, '', Constants.LOADING_INDICATOR);
+    else
+      this.props.showLoading(true, 'Lokalizujem Vašu polohu');
 
-        //retrieve address by coords from Google API
-        API.geolocateUser(location)
-          .then( res => {
+    //save coords
+    this.props.userLocationLoaded(location);
 
-              const geolocated = res.results[0]; //parse first result
+    //retrieve address by coords from Google API
+    API.geolocateUser(location)
+      .then( res => {
 
-              this.props.userPositionLoaded(geolocated.formatted_address);
+          const geolocated = res.results[0]; //parse first result
 
-              this.props.showLoading(false);
-          })
-          .catch(err => this.props.showLoading(false));
-      }, 
-      err => this.props.showLoading(false),
-      Constants.GEOLOCATION_PROPERTIES
-     );
+          this.props.userPositionLoaded(geolocated.formatted_address);
+
+          // if this was first time when user's position was loaded, notify reducer about it
+          // after next geolocations map won't be centered(only after application start)
+          if(! firstGeolocationDone){
+            this.props.firstGeolocationDone();
+          }
+
+          this.props.showLoading(false);
+      })
+      .catch(err => this.props.showLoading(false));
   }
 
   render() {
-    return <Header {...this.props}/>;
+    return <Header 
+      {...this.props} 
+      changeCity={(city) => {
+
+        //save city
+        this.props.selectCity(city);
+        AsyncStorage.setItem(Constants.SELECTED_CITY, JSON.stringify(city));
+
+        //hide modal
+        this.props.showCitiesModal(false);
+      }
+    }/>;
   }
 }
 
@@ -90,7 +105,8 @@ const mapStateToProps = state => {
     cities: state.cities,
     selectedCity: state.selectedCity,
     citiesModalVisible: state.citiesModalVisible,
-    startLocationGeo: state.startLocationGeo,
+    geolocatedLocationGeo: state.geolocatedLocationGeo,
+    geolocatedAddress: state.geolocatedAddress
   };
 };
 
@@ -103,6 +119,7 @@ const mapDispatchToProps = dispatch => {
 
     userPositionLoaded: (position)   => dispatch(userPositionLoaded(position)),
     userLocationLoaded: (location)   => dispatch(userLocationLoaded(location)),
+    firstGeolocationDone: ()         => dispatch(firstGeolocationDone()),
   };
 };
 
