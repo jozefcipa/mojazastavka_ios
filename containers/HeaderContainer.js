@@ -24,7 +24,7 @@ class HeaderContainer extends Component {
       Constants.GEOLOCATION_PROPERTIES);
 
     //loads available cities from server
-    this.props.showLoading(true, 'Načítavam zoznam miest');
+    // this.props.showLoading(true, 'Načítavam zoznam miest');
 
     API.loadCities()
       .then(data => this.props.citiesLoaded(data.cities))

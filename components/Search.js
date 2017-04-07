@@ -22,13 +22,15 @@ const styles = StyleSheet.create({
   },
 
   swapIconWrap: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   input: {
     backgroundColor: '#fff',
-    margin: 5,
-    marginTop: 0,
+    marginBottom: 5,
+    marginLeft: 5,
     borderRadius: 2
   }
 });

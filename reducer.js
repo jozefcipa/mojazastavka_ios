@@ -74,9 +74,9 @@ const store = {
 	departuresStartStop: '',
 	departuresDestinationStop: '',
 	departuresSelectedStopInput: Constants.DEPARTURES.SELECTED_START_STOP_INPUT,
-	departuresTime: '',
+	departuresTime: Date.now(),
 	showDeparturesTimeModal: false,
-	departures: [],
+	departures: [{lines:[]},{lines:[]},{lines:[]},{lines:[]},{lines:[]},{lines:[]}, ],
 
 };
 

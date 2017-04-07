@@ -6,8 +6,6 @@ import Constants from '../Constants';
 import pointImg from '../assets/point.png';
 import busStop from '../assets/busStop.png';
 import tramStop from '../assets/tramStop.png';
-import finishImg from '../assets/finishPoint.png';
-import userLocationImg from '../assets/userLocation.png';
 import Callout from './Callout';
 import isEqual from 'lodash.isequal';
 
@@ -55,11 +53,11 @@ export default class Map extends Component{
                   latitude: this.props.geolocatedLocationGeo.latitude,
                   longitude: this.props.geolocatedLocationGeo.longitude
                 }}
-                >{/*image={userLocationimg} */}
+                pinColor={'#19B5FE'}>
                   <Callout type={'GEO'} name={'Vaša poloha'} descriptionText={this.props.geolocatedAddress} />
               </MapView.Marker>
 
-              {/* START USER LOCATION image={userLocationImg}*/}
+              {/* START USER LOCATION*/}
               {
                 this.props.geolocatedAddress !== this.props.startName ? 
                   <MapView.Marker
@@ -74,7 +72,7 @@ export default class Map extends Component{
                     null
               }
 
-              {/* DESTINATION LOCATION image={finishImg}*/}
+              {/* DESTINATION LOCATION*/}
               <MapView.Marker 
                 draggable
                 onDragEnd={this.props.destinationPointMoved}
