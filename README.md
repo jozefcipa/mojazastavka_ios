@@ -1,8 +1,6 @@
 # Moja zastávka - iOS application
 iOS version of mojazastavka application in React Native
 
-Go check it out main [API repository](https://github.com/JozefCipa/mojazastavka_api).
-
 # v1.1
 <img src="http://i.imgur.com/zbpo1Dr.png" width="240"> <img src="http://i.imgur.com/Jy14FTa.png" width="240"> <img src="http://i.imgur.com/TYCkOaJ.png" width="240"> <img src="http://i.imgur.com/IyFwD0u.png" width="240">
 
