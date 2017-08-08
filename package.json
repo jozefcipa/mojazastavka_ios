@@ -1,30 +1,30 @@
 {
-	"name": "mojazastavka_ios",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"dependencies": {
-		"lodash.isequal": "^4.5.0",
-		"react": "~15.4.0-rc.4",
-		"react-native": "0.38.0",
-		"react-native-global-props": "^1.1.1",
-		"react-native-maps": "^0.12.2",
-		"react-native-modal-datetime-picker": "^4.1.0",
-		"react-native-textinput-effects": "^0.3.0",
-		"react-native-vector-icons": "^4.0.0",
-		"react-redux": "^5.0.2",
-		"redux": "^3.6.0"
-	},
-	"devDependencies": {
-		"babel-jest": "18.0.0",
-		"babel-preset-react-native": "1.9.1",
-		"jest": "18.1.0",
-		"react-test-renderer": "~15.4.0-rc.4"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
+  "name": "mojazastavka_ios",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "lodash.isequal": "^4.5.0",
+    "react": "~15.4.0-rc.4",
+    "react-native": "0.38.0",
+    "react-native-global-props": "^1.1.1",
+    "react-native-maps": "^0.12.2",
+    "react-native-modal-datetime-picker": "^4.1.0",
+    "react-native-textinput-effects": "^0.3.0",
+    "react-native-vector-icons": "^4.0.0",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0"
+  },
+  "devDependencies": {
+    "babel-jest": "18.0.0",
+    "babel-preset-react-native": "1.9.1",
+    "jest": "18.1.0",
+    "react-test-renderer": "~15.4.0-rc.4"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
 }
