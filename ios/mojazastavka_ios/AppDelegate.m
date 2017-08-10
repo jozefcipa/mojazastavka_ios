@@ -12,17 +12,13 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
-//@import GoogleMaps;
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
- // [GMSServices provideAPIKey:@"AIzaSyC92I7iEK7wntF_kxDL01VzTluCmaGy5ps"];
   
   NSURL *jsCodeLocation;
 
-//  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
